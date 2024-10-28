@@ -101,8 +101,7 @@ class CalculatorClass
 
     public bool checkMathematicalStringValidity(string data)
     {
-        // add check to see if 2 operators are next to each other or not
-        //string[] operators = { "+", "-", ":", "/", "*" };
+        //operators we allow
         char[] operators = { '-', '+', '*', 'x', ':', '/' };
 
         // ik i could save on variables but its more readable this way
@@ -117,12 +116,11 @@ class CalculatorClass
         //check if there are multiple operators next to each other
         for(int item = 0; item < operators.Length; item++)
         {
-            if(data.Contains(operators[item])) // mark if it even contains any
-                isContainAnyOperator = true;
-
             int buffer = data.IndexOf(operators[item]);
             if(buffer < 0) // operator not found
                 continue;
+
+            isContainAnyOperator = true; // no additional checks since if we reach this part it means we already have an operator present since IndexOf passed
 
             if(operators.Contains(data[buffer+1])){
                  Console.WriteLine("Two or more operators cant be next to each other!");
