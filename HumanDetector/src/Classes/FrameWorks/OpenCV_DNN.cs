@@ -9,33 +9,43 @@ using HumanDetector.vendors.include.singleton;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 using Tensorflow.NumPy;
 
+using Point = OpenCvSharp.Point;
+
 namespace src.Classes.FrameWorks
 {
     internal class OpenCV_DNN : AIManager
     {
 
         Globals ref_Globals = Instance<Globals>.Get();
+        protected Point m_TargetPictureSizeToProcess = new Point(640, 640);
+        protected float m_MinimumConfidance = 80.0f;
         protected override string m_FrameWorkName => "OpenCV"; // name used for printing and debug
         private CascadeClassifier m_Cascade;
         private Net? net;
 
-        public OpenCV_DNN(Point TargetPictureSizeToProcess, float MinimumConfidance) : base(TargetPictureSizeToProcess, MinimumConfidance){}
+        public OpenCV_DNN(Point TargetPictureSizeToProcess, float MinimumConfidance) : base(TargetPictureSizeToProcess, MinimumConfidance){
+            m_TargetPictureSizeToProcess = TargetPictureSizeToProcess;
+            m_MinimumConfidance = MinimumConfidance;
+        }
 
 
       
         public override void RunModel(Mat mat)
         {
+   
             if (ref_Globals.m_ShouldProcessFrames.IsCancellationRequested) return; // return if we should not process frames :D
+            if (m_Cascade == null) return;
+            if (ref_Globals.m_SelectedModelIndex != 0 && net == null) return;
 
 
-            Rect[] faces = new Rect[] { };
+            Rect[] faces = new Rect[] {};
 
             switch (ref_Globals.m_SelectedModelIndex)
             {
                 case 0: // haar cascade
                     var grayFrame = new Mat();
                     Cv2.CvtColor(mat, grayFrame, ColorConversionCodes.BGR2GRAY);
-                    Cv2.Resize(mat, grayFrame, new Size(m_TargetPictureSizeToProcess.X, m_TargetPictureSizeToProcess.Y));
+                    Cv2.Resize(grayFrame, grayFrame, new Size(m_TargetPictureSizeToProcess.X, m_TargetPictureSizeToProcess.Y));
                     faces = m_Cascade.DetectMultiScale(grayFrame, 1.1, 3, HaarDetectionTypes.ScaleImage);
 
                     break;
@@ -77,10 +87,16 @@ namespace src.Classes.FrameWorks
             // Draw rectangles around detected faces
             foreach (var face in faces)
             {
+            
+                // draw text
                 Size TextSize = Cv2.GetTextSize(m_FrameWorkName + " | " + ref_Globals.m_AvailableModelNames[0], OpenCvSharp.HersheyFonts.HersheySimplex, 0.7, 1, out int baseLine);
                 Cv2.Rectangle(mat, new Point(face.X, face.Y - 25), new Point(face.X + TextSize.Width, face.Y), OpenCvSharp.Scalar.Red, -1);
-                Cv2.Rectangle(mat, face, OpenCvSharp.Scalar.Red, 2);
                 Cv2.PutText(mat, m_FrameWorkName + " | " + ref_Globals.m_AvailableModelNames[ref_Globals.m_SelectedModelIndex], new Point(face.X, face.Y - 5), OpenCvSharp.HersheyFonts.HersheySimplex, 0.7, OpenCvSharp.Scalar.White, 2);
+
+                // draw rect
+                Cv2.Rectangle(mat, face, OpenCvSharp.Scalar.Red, 2);
+
+
             }
         }
 

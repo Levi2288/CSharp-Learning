@@ -29,13 +29,9 @@ namespace HumanDetector.src.Classes
 {
     internal abstract class AIManager
     {
-        public virtual void RunModel(Mat mat)
-        {
-        }
-        public virtual bool LoadModel()
-        {
-            return true;
-        }
+        public virtual void RunModel(Mat mat) { } // We are bigballers so we gonna use a template (PS: i removed templates because it would most likely impack performance and i would have to do additional checks in every RunModule call to verify or cast stuff.
+                                                  // So i will just cast stuff in the function itself
+        public virtual bool LoadModel(){return true;}
 
         protected Point m_TargetPictureSizeToProcess = new Point(640, 640);
         protected float m_MinimumConfidance = 80.0f;
@@ -69,11 +65,13 @@ namespace HumanDetector.src.Classes
         //struct to store multiple frameworks status (IK i could use a bool array too but this is way cleaner like this and i want to learn more about struct in C#
         public struct FrameWorks
         {
-            public bool OpenCV_DNN { get; set; } // this is extremely stupid in my op
+            public bool OpenCV_DNN { get; set; } // get and set stuff is pretty cool
+            public bool ML_NET { get; set; }
 
             public FrameWorks()
             {
                 OpenCV_DNN = true;
+                ML_NET = false;
             }
         };
 
@@ -91,13 +89,6 @@ namespace HumanDetector.src.Classes
         // private ITransformer _model;
 
 
-        public void DetectObject(Mat mat)
-        {
-            if (m_ShouldProcessFrames.IsCancellationRequested) return;
-
-            //OpenCV_DNN(mat);
-
-        }
 
         /*private static Tensor PrepareInputTensor(Mat frame)
         {

@@ -53,12 +53,13 @@ namespace HumanDetector
         private CancellationTokenSource _cancellationTokenSource;
 
 
-        AIManager OpenCVDNNClass = new OpenCV_DNN(new OpenCvSharp.Point(640,640), 80.0f);
+        AIManager OpenCVDNNClass = new OpenCV_DNN(new OpenCvSharp.Point(640, 480), 80.0f);
+        AIManager mlNetClass = new MicrosoftML(new OpenCvSharp.Point(640, 640), 80.0f);
         public MainWindow()
         {
             InitializeComponent();
 
-            //ref_AIManagerClass.LoadModel();
+            LoadRequiredModels();
             var data = Instance<Camera>.Get().QueryWMI();
             for(int i= 0; i < data.Count; i++)
             {
@@ -100,9 +101,8 @@ namespace HumanDetector
             ref_AIManagerClass.m_SelectedModelIndex = cmbModelSelector.SelectedIndex;
 
 
-            if (ref_AIManagerClass.m_FrameWorks.OpenCV_DNN)
-                OpenCVDNNClass.LoadModel();
-            
+            LoadRequiredModels();
+
 
 
             ref_AIManagerClass.m_ShouldProcessFrames = new CancellationTokenSource();
@@ -131,6 +131,7 @@ namespace HumanDetector
                 ref_CameraClass.m_Capture.Read(frame);
 
                 if (ref_AIManagerClass.m_FrameWorks.OpenCV_DNN) OpenCVDNNClass.RunModel(frame); // Run model
+                if (ref_AIManagerClass.m_FrameWorks.ML_NET) mlNetClass.RunModel(frame); // Run model
 
 
 
@@ -179,6 +180,7 @@ namespace HumanDetector
             ref_CameraClass.m_Capture.Set(VideoCaptureProperties.FrameWidth, ref_CameraClass.m_PictureWidth);
             ref_CameraClass.m_Capture.Set(VideoCaptureProperties.FrameHeight, ref_CameraClass.m_PictureHeight);
 
+
             if (!ref_CameraClass.m_Capture.IsOpened())
             {
                 Console.WriteLine("Failed to open camera.");
@@ -193,6 +195,15 @@ namespace HumanDetector
 
 
 
+        }
+
+        public void LoadRequiredModels()
+        {
+            if (ref_AIManagerClass.m_FrameWorks.OpenCV_DNN)
+                OpenCVDNNClass.LoadModel();
+
+            if (ref_AIManagerClass.m_FrameWorks.ML_NET)
+                mlNetClass.LoadModel();
         }
     }
 }

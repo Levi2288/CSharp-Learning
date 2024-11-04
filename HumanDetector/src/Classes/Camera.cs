@@ -24,8 +24,8 @@ namespace HumanDetector.src.Classes
         public VideoCapture m_Capture = null;
         public uint m_FPS = 30;
 
-        public uint m_PictureWidth = 500;
-        public uint m_PictureHeight = 500;
+        public uint m_PictureWidth = 640;
+        public uint m_PictureHeight = 480;
 
         #endregion
 

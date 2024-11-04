@@ -11,11 +11,11 @@
 
         <ComboBox Name="cmbCameraSelector" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="0,25,0,0" Width="200" SelectionChanged="cmbCameraSelector_SelectionChanged" />
         <ComboBox Name="cmbModelSelector" HorizontalAlignment="Stretch" Margin="72,25,608,0" VerticalAlignment="Top" Width="120" SelectionChanged="cmbModel_SelectionChanged"/>
-        <ComboBox Name="cmbFrameWorkSelector" HorizontalAlignment="Stretch" VerticalAlignment="Top" Width="120" Margin="85,25,995,0"/>
+        <ComboBox Name="cmbFrameWorkSelector" VerticalAlignment="Top" Width="120" Margin="801,25,279,0"/>
 
         <Label HorizontalAlignment="Stretch" VerticalAlignment="Top"  Margin="0,-6,0,0" Content="Camera" Width="83" FontSize="20"/>
         <Label HorizontalAlignment="Stretch" VerticalAlignment="Top"  Margin="96,-6,621,0" Content="Model" Width="83" FontSize="20"/>
-        <Label HorizontalAlignment="Stretch" VerticalAlignment="Top"  Margin="85,-6,995,0" Content="FrameWork" Width="110" FontSize="20"/>
+        <Label VerticalAlignment="Top"  Margin="806,-6,284,0" Content="FrameWork" Width="110" FontSize="20"/>
 
 
         <Viewbox  VerticalAlignment="Center" Height="40" Width="120" Margin="1012,0,28,0">
@@ -23,8 +23,8 @@
         </Viewbox>
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="500" />
-                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
 
@@ -34,12 +34,12 @@
                Margin="139,66,139,14" Grid.Row="0"/>
 
 
-            <Viewbox Grid.Row="1" HorizontalAlignment="Stretch"  VerticalAlignment="Center" Height="70" Margin="0,0,0,50">
+            <Viewbox Grid.Row="1" HorizontalAlignment="Stretch"  VerticalAlignment="Center" Height="70" Width="500" Margin="0,0,0,50">
                 <TextBlock Name="txtMainLabel"  
                        TextWrapping="Wrap" 
                        Text="TextBlock" 
                        FontSize="20" 
-                       TextAlignment="Center" Grid.Row="1"/>
+                       TextAlignment="Center"/>
             </Viewbox>
 
 
