@@ -1,0 +1,18 @@
+﻿<Window x:Class="WPFCalculator.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WPFCalculator"
+        mc:Ignorable="d"
+        Title="Calculator Window" Height="513" Width="857" FontFamily="Arial">
+    <Grid>
+        <TextBox HorizontalAlignment="Left" TextWrapping="WrapWithOverflow" Text="Input your mathematical phrase" VerticalAlignment="Top" Width="210" Height="122" Name="tbMathInput" Margin="402,86,0,0"/>
+        <Button Name="btnRunCalculation" Content="Calculate" HorizontalAlignment="Left" VerticalAlignment="Center" Height="55" Width="88" Margin="402,0,0,0" Click="btnRunCalculation_Click" Background="#FFC0E2A5"/>
+        <ComboBox HorizontalAlignment="Left" Margin="27,188,0,0" VerticalAlignment="Top" Width="120">
+            <ComboBoxItem Content="Debug Mode" Name="cbiDebugMode"></ComboBoxItem>
+        </ComboBox>
+
+    </Grid>
+
+</Window>

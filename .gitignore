@@ -1,0 +1,9 @@
+/Console Calculator/bin
+/HumanDetector/bin
+*.cache
+/HumanDetector/obj
+/Console Calculator/bin
+/HumanDetector/.vs
+/WPFCalculator/.vs
+/WPFCalculator/bin
+/WPFCalculator/obj

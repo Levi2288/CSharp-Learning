@@ -48,6 +48,8 @@ namespace Calculator
                 
 
             var CalculatorClass = new CalculatorClass();
+            CalculatorClass.recursionCounter = 0;
+
             if(CalculatorClass.checkMathematicalStringValidity(Input)){
                 Main(new string[] { });
             }
@@ -90,7 +92,12 @@ class Operations<T>{
             if((recievedOperator == '/' || recievedOperator == ':') && (dynamic?)y == 0)
                 throw new InvalidDataException("Can not devide with 0!!!");
 
-            return operations[recievedOperator](x, y);
+            var returnVal = operations[recievedOperator](x, y);
+            
+#if DEBUG
+            Console.WriteLine($"({x}) {recievedOperator} ({y}) = {returnVal}");
+#endif
+            return returnVal;
         }
         throw new InvalidDataException("Passed operator is invalid! Only the four default operator is supported.");
     }
@@ -98,11 +105,10 @@ class Operations<T>{
 
 class CalculatorClass
 {
-
+    public int recursionCounter = 0;
     public bool checkMathematicalStringValidity(string data)
     {
-        // add check to see if 2 operators are next to each other or not
-        //string[] operators = { "+", "-", ":", "/", "*" };
+        //operators we allow
         char[] operators = { '-', '+', '*', 'x', ':', '/' };
 
         // ik i could save on variables but its more readable this way
@@ -117,12 +123,11 @@ class CalculatorClass
         //check if there are multiple operators next to each other
         for(int item = 0; item < operators.Length; item++)
         {
-            if(data.Contains(operators[item])) // mark if it even contains any
-                isContainAnyOperator = true;
-
             int buffer = data.IndexOf(operators[item]);
             if(buffer < 0) // operator not found
                 continue;
+
+            isContainAnyOperator = true; // no additional checks since if we reach this part it means we already have an operator present since IndexOf passed
 
             if(operators.Contains(data[buffer+1])){
                  Console.WriteLine("Two or more operators cant be next to each other!");
@@ -215,6 +220,7 @@ class CalculatorClass
     //calculation function
     private decimal calc(string X, string Y, char Operator)
     {
+
         decimal xFinalValue = 0;
         decimal yFinalValue = 0;
         if(!Decimal.TryParse(X, out decimal numValueX)) // Trying to convert string to decimal value if we fail we split again since our string is not a valu!
@@ -231,13 +237,10 @@ class CalculatorClass
         else
             yFinalValue = numValueY;
 
-
+        
         var MathCalculator = new Operations<decimal>();
         var returnVal = MathCalculator.Calculate(xFinalValue, yFinalValue, Operator); // variables will always be filled sine we continue spliting our string until we can solve a math prob
-
-#if DEBUG
-            Console.WriteLine($"({X}) {Operator} ({Y}) = {returnVal}");
-#endif
+       
 
         return returnVal; 
     }

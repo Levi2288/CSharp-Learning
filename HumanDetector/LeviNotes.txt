@@ -1,0 +1,1 @@
+﻿Emgu is not good, or at least its VideoCapture did not work on my cam properly. I had to wait 3 minutes on each startup for it to get my camera. Switched to OpenCVSharp and same code worked properly.
