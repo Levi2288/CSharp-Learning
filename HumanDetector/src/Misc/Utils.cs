@@ -35,5 +35,14 @@ namespace HumanDetector.src.Misc
                 return bitmapSource;
             }
         }
+
+        public bool CheckMatValidity(Mat mat)
+        {
+            if (mat.Empty()) return false;
+            if (mat.Rows <= 0 || mat.Cols <= 0) return false;
+            if (mat.Channels() != 3) return false;
+
+            return true;
+        }
     }
 }

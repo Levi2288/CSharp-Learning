@@ -7,3 +7,6 @@
 /WPFCalculator/.vs
 /WPFCalculator/bin
 /WPFCalculator/obj
+HumanDetector/vendors/models/onnx/yolov8x-face-lindevs.onnx
+HumanDetector/vendors/models/onnx/arcfaceresnet100-8.onnx
+HumanDetector/vendors/models/onnx/yolov8x-face-lindevs.pt

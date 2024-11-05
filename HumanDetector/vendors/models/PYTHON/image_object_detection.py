@@ -8,7 +8,7 @@ model_path = "models/yolov8n-face.onnx"
 yolov8_detector = YOLOv8(model_path, conf_thres=0.2, iou_thres=0.3)
 
 # Read image
-img_url = "testPic.jpg"
+img_url = "http://localhost:8000/testPic.jpg"
 img = imread_from_url(img_url)
 
 # Detect Objects

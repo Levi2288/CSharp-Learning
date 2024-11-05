@@ -21,11 +21,11 @@ namespace HumanDetector.src.Classes
     {
         #region Variables
 
-        public VideoCapture m_Capture = null;
+        public VideoCapture? m_Capture = null;
         public uint m_FPS = 30;
 
         public uint m_PictureWidth = 640;
-        public uint m_PictureHeight = 480;
+        public uint m_PictureHeight = 420;
 
         #endregion
 
@@ -60,7 +60,7 @@ namespace HumanDetector.src.Classes
             }
             catch (ManagementException e)
             {
-                //MessageBox.Show("An error occurred while querying for WMI data: " + e.Message);
+                MessageBox.Show("An error occurred while querying for WMI data: " + e.Message);
             }
 
             return cameraDictionary;

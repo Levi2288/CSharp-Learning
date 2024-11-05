@@ -23,6 +23,8 @@ using static HumanDetector.src.Classes.Globals;
 using static HumanDetector.src.Classes.AIManager;
 using src.Classes.FrameWorks;
 
+using MyTorch = src.Classes.FrameWorks.TorchSharp; // Alias the library namespace
+
 
 
 
@@ -55,6 +57,7 @@ namespace HumanDetector
 
         AIManager OpenCVDNNClass = new OpenCV_DNN(new OpenCvSharp.Point(640, 480), 80.0f);
         AIManager mlNetClass = new MicrosoftML(new OpenCvSharp.Point(640, 640), 80.0f);
+        AIManager TorchSharpClass = new MyTorch(new OpenCvSharp.Point(640, 640), 80.0f);
         public MainWindow()
         {
             InitializeComponent();
@@ -132,6 +135,7 @@ namespace HumanDetector
 
                 if (ref_AIManagerClass.m_FrameWorks.OpenCV_DNN) OpenCVDNNClass.RunModel(frame); // Run model
                 if (ref_AIManagerClass.m_FrameWorks.ML_NET) mlNetClass.RunModel(frame); // Run model
+                if (ref_AIManagerClass.m_FrameWorks.TorchSharp) TorchSharpClass.RunModel(frame); // Run model
 
 
 
@@ -165,7 +169,8 @@ namespace HumanDetector
 
             if (ref_CameraClass.m_Capture != null)
             {
-                _cancellationTokenSource.Cancel();
+                if(_cancellationTokenSource != null)
+                    _cancellationTokenSource.Cancel();
                 ref_CameraClass.m_Capture.Release();
                 ref_CameraClass.m_Capture.Dispose();
                 ref_CameraClass.m_Capture = null;
@@ -179,6 +184,11 @@ namespace HumanDetector
             ref_CameraClass.m_Capture.Set(VideoCaptureProperties.Fps, ref_CameraClass.m_FPS);
             ref_CameraClass.m_Capture.Set(VideoCaptureProperties.FrameWidth, ref_CameraClass.m_PictureWidth);
             ref_CameraClass.m_Capture.Set(VideoCaptureProperties.FrameHeight, ref_CameraClass.m_PictureHeight);
+
+            var Width = ref_CameraClass.m_Capture.Get(VideoCaptureProperties.FrameWidth);
+            var Height =  ref_CameraClass.m_Capture.Get(VideoCaptureProperties.FrameHeight);
+
+            Console.WriteLine($"Height: {Height} | Width: {Width}");
 
 
             if (!ref_CameraClass.m_Capture.IsOpened())
@@ -199,11 +209,15 @@ namespace HumanDetector
 
         public void LoadRequiredModels()
         {
+            // could use a loop here but for readability for now i will just do ifs
             if (ref_AIManagerClass.m_FrameWorks.OpenCV_DNN)
                 OpenCVDNNClass.LoadModel();
 
             if (ref_AIManagerClass.m_FrameWorks.ML_NET)
                 mlNetClass.LoadModel();
+
+            if (ref_AIManagerClass.m_FrameWorks.TorchSharp)
+                TorchSharpClass.LoadModel();
         }
     }
 }

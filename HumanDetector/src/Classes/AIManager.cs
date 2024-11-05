@@ -67,15 +67,17 @@ namespace HumanDetector.src.Classes
         {
             public bool OpenCV_DNN { get; set; } // get and set stuff is pretty cool
             public bool ML_NET { get; set; }
+            public bool TorchSharp { get; set; }
 
             public FrameWorks()
             {
-                OpenCV_DNN = true;
+                OpenCV_DNN = false;
                 ML_NET = false;
+                TorchSharp = true;
             }
         };
 
-        public FrameWorks m_FrameWorks = new FrameWorks { OpenCV_DNN = true };
+        public FrameWorks m_FrameWorks = new FrameWorks { };
       
 
 
