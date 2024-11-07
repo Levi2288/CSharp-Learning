@@ -2,3 +2,14 @@
 
 For some reason OpenCVSharp refuses to work with onnx files even tho as far as i can see i did everything correctly. (might be a code issue but it doesnt return any output in the array)
 I spent 3h trying to find out why, i tested the models (onnx files) and they where correct and working when it was accessed from python. Might be an issue with the latest package ver.
+
+
+TorchSharp only accepts TorchScript models, so it have to be converted https://docs.djl.ai/master/docs/pytorch/how_to_convert_your_model_to_torchscript.html
+
+
+
+Work:
+
+11.01 | 3h
+11.04 | 8h
+11.05 | 3h
